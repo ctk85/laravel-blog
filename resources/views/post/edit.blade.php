@@ -18,10 +18,10 @@
  
             <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
                 <h1>Edit Post</h1>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <form method="post" action="{{ route('post.update', ['id' => $post->id]) }}">
-                        <input type="hidden" name="_method" value="PUT">
-                        {{ csrf_field() }}
+                        @method('PUT')
+                        @csrf
                         <div class="form-group">
                             <label for="name">Title</label>
                             <input type="text" class="form-control" id="id_title" name="title"
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="id_description" rows="5" name="description">{{ $post->description }}</textarea>
+                            <textarea class="form-control" id="id_description" rows="8" name="description">{{ $post->description }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">update post</button>
                     </form>

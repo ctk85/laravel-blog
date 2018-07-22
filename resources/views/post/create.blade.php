@@ -17,10 +17,10 @@
             </nav>
  
             <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-                <h1>Create Post</h1>
-                <div class="col-md-4">
-                    <form method="post" action="{{ route('post.store') }}">
-                        {{ csrf_field() }}
+                <h2>Create Post</h2>
+                <div class="col-md-8">
+                    <form method="POST" action="{{ route('post.store') }}">
+                        @csrf
                         <div class="form-group">
                             <label for="name">Title</label>
                             <input type="text" class="form-control" id="id_title" name="title"
@@ -28,9 +28,12 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="id_description" rows="3" name="description" placeholder="Description"></textarea>
+                            <textarea class="form-control" id="id_description" rows="6" name="description" placeholder="Description"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Create post</button>
+                        <a href="{{ route('post.index') }}">
+                            <button type="button" class="btn btn-warning">Cancel</button>
+                        </a>
                     </form>
                 </div>
             </main>

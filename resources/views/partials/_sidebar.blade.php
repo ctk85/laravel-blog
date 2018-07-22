@@ -1,4 +1,13 @@
 <aside class="col-sm-3 ml-sm-auto blog-sidebar">
+    @auth
+    <div class="sidebar-module">
+        <h4>Admin</h4>
+        <a href="{{ route('post.index') }}">
+            <button type="button" class="btn btn-primary btn-sm">Manage Posts</button>
+        </a>
+        <p></p>
+    </div>
+    @endauth
     <div class="sidebar-module">
         <h4>Latest Posts</h4>
         <ol class="list-unstyled">

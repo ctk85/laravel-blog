@@ -59,7 +59,7 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('home')
-            ->with('success', 'Post has been successfully added!');
+            ->with('success', 'Blog post titled, '.$post->title.', has been successfully added!');
     }
 
     /**
@@ -100,8 +100,8 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->save();
 
-        return redirect()->route('home')
-            ->with('success', 'Post has been updated successfully');
+        return redirect()->route('post.index')
+            ->with('success', 'Blog post titled, '.$post->title.', has been updated successfully!');
     }
 
     /**
@@ -112,6 +112,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect()->route('post.index')
+            ->with('success', 'Blog post titled, '.$post->title.', has been deleted successfully!');
     }
 }

@@ -29,6 +29,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    /*
     protected function authenticated(Request $request, $user)
     {
         $getJoke = $this->dadJoke();
@@ -39,6 +40,7 @@ class LoginController extends Controller
 
         $request->session()->flash('info', $msg);
     }
+    */
 
     /**
      * Create a new controller instance.
@@ -50,6 +52,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /*
     public function dadJoke()
     {
         $client = new Client();
@@ -65,4 +68,5 @@ class LoginController extends Controller
         
         } catch(\Exception $e) {}
     }
+    */
 }

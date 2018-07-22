@@ -30,7 +30,7 @@
                             <label for="description">Description</label>
                             <textarea class="form-control" id="id_description" rows="6" name="description" placeholder="Description"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Create post</button>
+                        <button type="submit" class="btn btn-primary">Create Post</button>
                         <a href="{{ route('post.index') }}">
                             <button type="button" class="btn btn-warning">Cancel</button>
                         </a>

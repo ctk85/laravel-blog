@@ -1,9 +1,9 @@
 @if($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <p class='lead'>Error:</p>
+        <p></p>
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                &#9888;&nbsp;{{ $error }}<br/>
             @endforeach
         </ul>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

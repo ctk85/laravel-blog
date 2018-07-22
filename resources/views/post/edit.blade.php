@@ -31,7 +31,10 @@
                             <label for="description">Description</label>
                             <textarea class="form-control" id="id_description" rows="8" name="description">{{ $post->description }}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">update post</button>
+                        <button type="submit" class="btn btn-primary">Update Post</button>
+                        <a href="{{ URL::previous() }}">
+                            <button type="button" class="btn btn-warning">Cancel</button>
+                        </a>
                     </form>
                 </div>
             </main>

@@ -22,6 +22,15 @@ If you don't have node installed on your mac, see here:
 
 https://treehouse.github.io/installation-guides/mac/node-mac.html
 
-Start your server with the public directory as your document root. If you are using the built in PHP server you can navigate to public and run ( I prefer to use Valet https://laravel.com/docs/5.6/valet ):
+Serve locally by running:
+
+	php artisan serve
+
+Recommended local web server: https://laravel.com/docs/5.6/valet
 	
-	php -S localhost:8000
+	cd <project directory>
+	valet park
+	valet link
+	valet domain test
+
+Go to: http://project-name.test

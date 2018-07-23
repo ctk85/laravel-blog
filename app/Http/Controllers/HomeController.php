@@ -26,11 +26,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $months = array_of_months(11);
+
         $posts = DB::table('users')
             ->leftjoin('posts', 'users.id', '=', 'posts.author')
             ->orderBy('posts.created_at', 'desc')
             ->paginate(3);
         
-        return view('home', compact('posts'));
+        return view('home', compact('posts','months'));
     }
+
 }

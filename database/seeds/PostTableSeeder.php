@@ -20,7 +20,8 @@ class PostTableSeeder extends Seeder
         	Post::create([
         		'title' => $faker->sentence,
         		'description' => $faker->paragraph,
-        		'author' => 1
+        		'author' => 1,
+                'created_at' => $faker->date
         	]);
         }
     }

@@ -15,4 +15,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/post-admin', 'PostController@indexAdmin')
+	->middleware('admin')
+	->name('post.index-admin');
+
 Route::resource('post', 'PostController');

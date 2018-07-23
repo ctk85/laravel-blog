@@ -17,7 +17,7 @@
             </nav>
  
             <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-                <h1>My&nbsp;Posts
+                <h1>All&nbsp;Posts
                     <a href="{{ route('post.create') }}">
                         <button type="button" class="btn btn-primary btn-sm">Create Post</button>
                     </a>

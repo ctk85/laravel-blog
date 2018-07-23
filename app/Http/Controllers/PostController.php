@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('auth');
     }
 
     /**
@@ -29,9 +29,25 @@ class PostController extends Controller
         $posts = DB::table('users')
             ->leftjoin('posts', 'users.id', '=', 'posts.author')
             ->orderBy('posts.created_at', 'desc')
+            ->where('users.id', Auth::user()->id)
             ->paginate(10);
-        
+
         return view('post.index', compact('posts'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexAdmin()
+    {
+        $posts = DB::table('users')
+            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->orderBy('posts.created_at', 'desc')
+            ->paginate(10);
+            
+            return view('post.index-admin', compact('posts'));
     }
 
     /**

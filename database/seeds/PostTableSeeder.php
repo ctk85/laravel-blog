@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
- 
+use App\Post;
+
 use Faker\Factory as Faker;
 
 class PostTableSeeder extends Seeder
@@ -15,12 +16,11 @@ class PostTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1,30) as $index) {
-        	DB::table('posts')->insert([
-        		'title' => $faker->name,
+        foreach(range(1,20) as $index) {
+        	Post::create([
+        		'title' => $faker->sentence,
         		'description' => $faker->paragraph,
-        		'author' => 1,
-                'created_at' => date('Y-m-d H:i:s')
+        		'author' => 1
         	]);
         }
     }

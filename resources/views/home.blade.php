@@ -9,37 +9,25 @@
 <div class="col-sm-8 blog-main">
 @if($posts->count() > 0)
   @foreach($posts as $post)
-
-      <div class="blog-post">
-          <h2 class="blog-post-title">{{ $post->title }}</h2>
-          <p class="blog-post-meta"><small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} by <a href="#">{{ $post->name }}</a></i></small></p>
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{ $post->title }}</h2>
+        <p class="blog-post-meta"><small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} by <a href="#">{{ $post->name }}</a></i></small></p>
+        @if($expandPost && $expandPost == $post->id)
+          <p>{{ $post->description }}
+          <a href="{{ route('home') }}">
+            <button type="button" class="btn btn-warning btn-sm">Collapse</button>
+          </a>
+        @else
           <p>{{ str_limit($post->description, 400) }}
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-            Learn More
-          </button></p>
-
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">{{ $post->title }}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  {{ $post->description }}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div><!-- /.blog-post -->
-
+          <a href="{{ URL::to('?expandPost=' . $post->id) }}">
+            <button type="button" class="btn btn-secondary btn-sm">Expand</button>
+          </a>
+        @endif
+        <a href="{{ route('show', ['id' => $post->id]) }}">
+            <button type="button" class="btn btn-primary btn-sm">Learn More</button>
+        </a>
+      </p>
+    </div>
   @endforeach
 @else
   <div class="flex-center position-ref">

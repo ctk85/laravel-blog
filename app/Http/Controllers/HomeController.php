@@ -26,7 +26,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = ($request->filter) ? $request->filter."%" : "%"; 
+        $filter = ($request->filter) ? $request->filter."%" : "%";
+        $expandPost = ($request->expandPost) ? $request->expandPost : false;
         $months = array_of_months(11);
 
         $posts = DB::table('users')
@@ -35,7 +36,22 @@ class HomeController extends Controller
             ->where('posts.created_at','LIKE',$filter)
             ->paginate(3);
         
-        return view('home', compact('posts','months','filter'));
+        return view('home', compact('posts','months','filter','expandPost'));
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $post = DB::table('users')
+            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->where('posts.id', $id)
+            ->first();
+
+        return view('show', compact('post'));
+    }
 }

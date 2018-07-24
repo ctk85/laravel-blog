@@ -4,16 +4,13 @@
         <h4>Manage Posts</h4>
         <div class="sidebar-module">
         @if(auth()->user()->isAdmin == 1)
-        <a href="{{ route('post.index-admin') }}">
-            <button type="button" class="btn btn-primary btn-sm">All Posts</button>
-        </a>
-        @endif
-
-        @auth
-            <a href="{{ route('post.index') }}">
-                <button type="button" class="btn btn-info btn-sm">My Posts</button>
+            <a href="{{ route('post.index-admin') }}">
+                <button type="button" class="btn btn-primary btn-sm">All Posts</button>
             </a>
-        @endauth
+        @endif
+        <a href="{{ route('post.index') }}">
+            <button type="button" class="btn btn-info btn-sm">My Posts</button>
+        </a>
         <p></p>
         </div>
     @endauth
@@ -22,7 +19,7 @@
         <h4>Latest Posts</h4>
         <ol class="list-unstyled">
             @foreach($months as $month)
-                <li><a href="#">{{ $month }}</a></li>
+                <li><a href="{{ URL::to('?filter=' . Carbon\Carbon::parse($month)->format('Y-m')) }}">{{ $month }}</a></li>
             @endforeach
         </ol>
     </div>

@@ -24,16 +24,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filter = ($request->filter) ? $request->filter."%" : "%"; 
         $months = array_of_months(11);
 
         $posts = DB::table('users')
             ->leftjoin('posts', 'users.id', '=', 'posts.author')
-            ->orderBy('posts.created_at', 'desc')
+            ->orderBy('posts.created_at', 'DESC')
+            ->where('posts.created_at','LIKE',$filter)
             ->paginate(3);
         
-        return view('home', compact('posts','months'));
+        return view('home', compact('posts','months','filter'));
     }
 
 }

@@ -20,7 +20,6 @@ class Admin
             return $next($request);
         }
      
-        return redirect('home')
-            ->withErrors('Access denied: Only admin users may access this page.'); 
+        return redirect('post'); 
     }
 }

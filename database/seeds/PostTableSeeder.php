@@ -19,7 +19,7 @@ class PostTableSeeder extends Seeder
         foreach(range(1,20) as $index) {
         	Post::create([
         		'title' => $faker->sentence,
-        		'description' => $faker->paragraph,
+        		'description' => $faker->paragraphs(rand(3, 10), true),
         		'author' => 1,
                 'created_at' => $faker->date
         	]);

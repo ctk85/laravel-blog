@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
     	// Make sure everyone has the same password
-    	$password = Hash::make('testing_password');
+    	$password = Hash::make('king');
 
     	// Admin user
     	User::create([
@@ -24,15 +24,19 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => $password,
             'isAdmin' => 1,
-            'id' => 1
+            'id' => 1,
+            'api_token' => str_random(60),
+            'remember_token' => str_random(10)
         ]);
 
         $faker = Faker::create();
-        foreach(range(1,10) as $index) {
+        foreach(range(1,20) as $index) {
         	User::create([
         		'name' => $faker->name,
             	'email' => $faker->unique()->safeEmail,
-            	'password' => $password
+            	'password' => $password,
+                'api_token' => str_random(60),
+                'remember_token' => str_random(10)
         	]);
         }
     }

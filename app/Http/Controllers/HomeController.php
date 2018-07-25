@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Post;
+use App\Users;
 
 class HomeController extends Controller
 {
@@ -26,8 +27,12 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = ($request->filter) ? $request->filter."%" : "%";
-        $expandPost = ($request->expandPost) ? $request->expandPost : false;
+        $filter = ($request->filter) 
+            ? $request->filter."%" 
+            : "%";
+        $expandPost = ($request->expandPost) 
+            ? $request->expandPost 
+            : false;
         $months = array_of_months(11);
 
         $posts = DB::table('users')
@@ -45,13 +50,16 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showArticle($id)
     {
-        $post = DB::table('users')
+        $author = DB::table('users')
             ->leftjoin('posts', 'users.id', '=', 'posts.author')
-            ->where('posts.id', $id)
-            ->first();
+            ->where('posts.id', $id)->first();
+        
+        $author = $author->name;
 
-        return view('show', compact('post'));
+        $post = Post::findOrFail($id);
+
+        return view('article', compact('post','author'));
     }
 }

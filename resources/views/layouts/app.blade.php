@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<!-- Head -->
 @include('partials._head')
 
 <body>
@@ -25,8 +26,10 @@
         </main>
 
         @include('partials._footer')
-        @yield('scripts')
-        
+
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

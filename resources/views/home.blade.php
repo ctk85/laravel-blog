@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Welcome to Chris' Blog!
+    Welcome!
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
         <h2 class="blog-post-title">{{ $post->title }}</h2>
         <p class="blog-post-meta"><small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} by <a href="#">{{ $post->name }}</a></i></small></p>
         @if($expandPost && $expandPost == $post->id)
-          <p>{{ $post->description }}
+          <p>{!! nl2br(e($post->description)) !!}
           <a href="{{ route('home') }}">
             <button type="button" class="btn btn-warning btn-sm">Collapse</button>
           </a>
@@ -23,7 +23,7 @@
             <button type="button" class="btn btn-secondary btn-sm">Expand</button>
           </a>
         @endif
-        <a href="{{ route('show', ['id' => $post->id]) }}">
+        <a href="{{ route('article', ['id' => $post->id]) }}">
             <button type="button" class="btn btn-primary btn-sm">Learn More</button>
         </a>
       </p>

@@ -10480,6 +10480,19 @@ body {
   color: black;
 }
 
+.blog-text-border {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+
+@media (min-width: 576px) {
+  .blog-text-border {
+    padding: 2rem 2rem;
+  }
+}
+
 .container-fluid {
   padding-left: 30px;
   padding-right: 30px;

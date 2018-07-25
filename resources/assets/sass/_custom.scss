@@ -1,4 +1,5 @@
-// Custom
+// Custom styling
+
 html {
   position: relative;
   min-height: 100%;
@@ -7,6 +8,19 @@ html {
 body {
   margin-bottom: 80px; /* Margin bottom by footer height */
   color: black;
+}
+
+.blog-text-border {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+
+@media (min-width: 576px) {
+  .blog-text-border {
+    padding: 2rem 2rem;
+  }
 }
 
 .container-fluid {
@@ -18,7 +32,6 @@ body {
   margin-bottom: 40px;
 }
 
-// Custom Footer
 .footer {
   position: absolute;
   vertical-align: middle;

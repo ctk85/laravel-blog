@@ -7,36 +7,46 @@
 @section('content')
 <div class="col-sm-12 blog-main">
 	<div class="blog-post">
-		<h2 class="blog-post-title">{{ $post->title }}</h2>
-		<p class="blog-post-meta">
-			<small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} 
-				by <a href="#">{{ $author }}</a></i></small></p>
-		<p>{!! nl2br(e($post->description)) !!}</p>
+		<div class="blog-text-border">
+			<h2 class="blog-post-title">{{ $post->title }}</h2>
+			<p class="blog-post-meta">
+				<small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} 
+					by <a href="#">{{ $author }}</a></i></small></p>
+			<hr />
+			{!! nl2br(e($post->description)) !!}
+		</div>
 	</div>
-	<hr />
+	<div style="margin-bottom:20px;" v-if="user">
+		<div class="blog-text-border">
+			<textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox"></textarea>
+			<button class="btn btn-success" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+		</div>
+	</div>
+	<div class="blog-text-border" v-else>
+		<p class="lead text-center">You must be logged in to submit a comment.&nbsp;<a href="/login">Login Now &gt;&gt;</a></p>
+	</div>
 
-	<p class='lead'>Let us know what you think:</p>
-	<div style="margin-bottom:50px;" v-if="user">
-		<textarea class="form-control" rows="3" name="body" placeholder="Leave a comment" v-model="commentBox"></textarea>
-		<button class="btn btn-success" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+	<div v-if="comments[0]">
+		<div class="blog-text-border">
+			<div class="media" style="margin-top:20px;" v-for="comment in comments">
+			    <div class="media-left" style="padding-right: 20px;">
+			        <a href="#">
+			            <img class="media-object" src="http://placeimg.com/80/80" alt="...">
+			        </a>
+			        
+			    </div>
+			    <div class="media-body">
+			        <h4 class="media-heading">@{{comment.user.name}} said...</h4>
+			        <p>
+			          @{{comment.body}}
+			        </p>
+			        <span style="color: #aaa;">on @{{comment.created_at}}</span>
+			    </div>
+			</div>
+		</div>
 	</div>
-	<div v-else>
-		<h4>You must be logged in to submit a comment!</h4> <a href="/login">Login Now &gt;&gt;</a>
-	</div>
-	
-	<div class="media" style="margin-top:20px;" v-for="comment in comments">
-	    <div class="media-left">
-	        <a href="#">
-	            <img class="media-object" src="http://placeimg.com/80/80" alt="...">
-	        </a>
-	    </div>
-	    <div class="media-body">
-	        <h4 class="media-heading">@{{comment.user.name}} said...</h4>
-	        <p>
-	          @{{comment.body}}
-	        </p>
-	        <span style="color: #aaa;">on @{{comment.created_at}}</span>
-	    </div>
+	<div class="blog-text-border" v-else>
+		<p class="lead text-center">Be the first to leave a comment!</p>
 	</div>
 </div>
 @endsection

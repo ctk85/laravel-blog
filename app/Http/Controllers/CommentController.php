@@ -20,7 +20,8 @@ class CommentController extends Controller
      */
     public function index(Post $post)
     {
-        return response()->json($post->comments()->with('user')->latest()->get());
+        return response()->json($post->comments()
+            ->with('user')->latest()->get());
     }
 
     /**
@@ -38,31 +39,8 @@ class CommentController extends Controller
         ]);
 
         $comment = Comment::where('id', $comment->id)->with('user')->first();
-        
         broadcast(new NewComment($comment))->toOthers();
-        
         return $comment->toJson();
-    }
-
-    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

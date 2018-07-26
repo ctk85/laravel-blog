@@ -31,7 +31,7 @@
 			<div class="media" style="margin-top:20px;" v-for="comment in comments">
 			    <div class="media-left" style="padding-right: 20px;">
 			        <a href="#">
-			            <img class="media-object" src="http://placeimg.com/80/80" alt="...">
+			            <img class="media-object" v-bind:src="'/storage/avatars/' + comment.user.avatar" alt="...">
 			        </a>
 			        
 			    </div>
@@ -56,6 +56,7 @@
 	const app = new Vue({
 		el: '#app',
 		data: {
+			errors: [],
 			comments: {},
 			commentBox: '',
 			post: {!! $post->toJson() !!},

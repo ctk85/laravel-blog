@@ -1,2 +1,5 @@
 *
+!avatars
+avatars/*
+!avatars/user.png
 !.gitignore

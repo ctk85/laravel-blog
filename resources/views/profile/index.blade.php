@@ -28,5 +28,12 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+        <div class="row justify-content-center">
+        <form id="formEditProfile" action="{{ route('profile.edit', ['id' => $user->id]) }}">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info">Edit Profile</button>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

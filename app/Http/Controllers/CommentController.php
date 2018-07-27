@@ -33,6 +33,10 @@ class CommentController extends Controller
      */
     public function store(Request $request, Post $post)
     {
+        $request->validate([
+            'body' => 'required|min:10',
+        ]);
+
         $comment = $post->comments()->create([
             'body' => $request->body,
             'user_id' => Auth::id()
@@ -44,26 +48,25 @@ class CommentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'body' => 'required|min:10',
+        ]);
+
+        $comment = Comment::find($request->comment_id);
+        $comment->body = $request->body;
+        $comment->save();
+
+        $comment = Comment::where('id', $comment->id)->with('user')->first();
+        broadcast(new NewComment($comment))->toOthers();
+        return $comment->toJson();
     }
 
     /**

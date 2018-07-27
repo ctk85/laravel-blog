@@ -3,15 +3,12 @@
     @auth
         <h4>Manage Posts</h4>
         <div class="sidebar-module">
-        @if(auth()->user()->isAdmin == 1)
-            <a href="{{ route('post.index-admin') }}">
-                <button type="button" class="btn btn-primary btn-sm">All Posts</button>
-            </a>
-        @endif
-        <a href="{{ route('post.index') }}">
-            <button type="button" class="btn btn-info btn-sm">My Posts</button>
-        </a>
-        <p></p>
+            <ol class="list-unstyled">
+                @if(auth()->user()->isAdmin == 1)
+                   <li><a href="{{ route('post.index-admin') }}"><button style="width: 100px" class="btn btn-sm btn-secondary">All Posts&nbsp;&gt;&gt;</button></a></li>
+                @endif
+                <li><a href="{{ route('post.index') }}"><button style="width: 100px"class="btn btn-sm btn-primary">My Posts&nbsp;&gt;&gt;</button></a></li>
+            </ol>
         </div>
     @endauth
 

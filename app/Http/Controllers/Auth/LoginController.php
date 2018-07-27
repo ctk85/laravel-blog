@@ -29,18 +29,11 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    /*
+
     protected function authenticated(Request $request, $user)
     {
-        $getJoke = $this->dadJoke();
-        $joke = " ... ".$getJoke['joke'];
-        $userParts = explode(' ',$user->name);
-        $firstName = $userParts[0];
-        $msg = "Welcome, ".$firstName."!".$joke;
-
-        $request->session()->flash('info', $msg);
+        toast('Logged in successfully!','success','top-right');
     }
-    */
 
     /**
      * Create a new controller instance.
@@ -51,22 +44,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    /*
-    public function dadJoke()
-    {
-        $client = new Client();
-        try {
-            $res = $client->request('GET', 'https://icanhazdadjoke.com', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-type' => 'application/json'
-            ]]);
-            $joke = json_decode($res->getBody(), true);
-            
-            return $joke;
-        
-        } catch(\Exception $e) {}
-    }
-    */
 }

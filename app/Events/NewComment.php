@@ -10,8 +10,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class NewComment implements ShouldBroadcast
+class NewComment implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -44,7 +45,7 @@ class NewComment implements ShouldBroadcast
             'created_at' => $this->comment->created_at->toFormattedDateString(),
             'user' => [
                 'name' => $this->comment->user->name,
-                'avatar' => 'http://lorempixel/50/50'
+                'avatar' => $this->comment->user->avatar
             ]
         ];
     }

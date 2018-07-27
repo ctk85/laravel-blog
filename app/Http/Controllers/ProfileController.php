@@ -64,11 +64,11 @@ class ProfileController extends Controller
             $user->avatar = $avatarName;
             $user->save();
         } catch (\Exception $e) {
-
             $errors[] = $e->getMessage();
             return back()->withErrors($errors);
         }
-        return back()->with('success','You have successfully uploaded a new image.');
+        alert()->success('Success!','You have successfully uploaded a new image!')->autoClose(2000);
+        return back();
     }
 
     /**

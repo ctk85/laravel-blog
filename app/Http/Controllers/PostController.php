@@ -27,7 +27,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('users')
-            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->leftjoin('posts', 'users.id', '=', 'posts.user_id')
             ->orderBy('posts.created_at', 'desc')
             ->where('users.id', Auth::user()->id)
             ->paginate(10);
@@ -43,7 +43,7 @@ class PostController extends Controller
     public function indexAdmin()
     {
         $posts = DB::table('users')
-            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->join('posts', 'users.id', '=', 'posts.user_id')
             ->orderBy('posts.created_at', 'desc')
             ->paginate(10);
             
@@ -71,11 +71,11 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'author' => Auth::user()->id
+            'user_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('home')
-            ->with('success', 'Blog post titled, '.$post->title.', has been successfully added!');
+        alert()->success('Success!','Blog post has been successfully added!');
+        return redirect()->route('home');
     }
 
     /**
@@ -116,8 +116,8 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->save();
 
-        return redirect()->route('post.index')
-            ->with('success', 'Blog post titled, '.$post->title.', has been updated successfully!');
+        alert()->success('Blog post titled, '.$post->title.', has been updated successfully!');
+        return redirect()->route('post.index');
     }
 
     /**
@@ -131,7 +131,6 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
 
-        return redirect()->route('post.index')
-            ->with('success', 'Blog post titled, '.$post->title.', has been deleted successfully!');
+        return redirect()->route('post.index');
     }
 }

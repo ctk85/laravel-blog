@@ -11,37 +11,22 @@ use App\Users;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('guest');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $filter = ($request->filter) 
-            ? $request->filter."%" 
-            : "%";
-        $expandPost = ($request->expandPost) 
-            ? $request->expandPost 
-            : false;
+        $filter = ($request->filter) ? $request->filter."%" : "%";
         $months = array_of_months(11);
 
         $posts = DB::table('users')
-            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->leftjoin('posts', 'users.id', '=', 'posts.user_id')
             ->orderBy('posts.created_at', 'DESC')
             ->where('posts.created_at','LIKE',$filter)
             ->paginate(3);
         
-        return view('home', compact('posts','months','filter','expandPost'));
+        return view('home', compact('posts','months','filter'));
     }
 
     /**
@@ -53,7 +38,7 @@ class HomeController extends Controller
     public function showArticle($id)
     {
         $author = DB::table('users')
-            ->leftjoin('posts', 'users.id', '=', 'posts.author')
+            ->leftjoin('posts', 'users.id', '=', 'posts.user_id')
             ->where('posts.id', $id)->first();
         
         $author = $author->name;

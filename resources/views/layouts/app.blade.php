@@ -8,11 +8,9 @@
     <div id="app">
         
         @include('partials._header') 
-        
-        <div class="container">
-            @include('partials._messages')
-        </div>
-        
+        @include('partials._messages')
+        @include('sweetalert::alert')
+
         <main role="main" class="container">
             <div class="row">
                 
@@ -26,7 +24,6 @@
         </main>
 
         @include('partials._footer')
-
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

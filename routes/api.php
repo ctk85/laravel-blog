@@ -22,4 +22,5 @@ Route::get('/article/{post}/comments', 'CommentController@index')->name('index')
 Route::middleware('auth:api')->group(function () {
     Route::post('/article/{post}/comment', 'CommentController@store');
     Route::post('/article/{post}/comment/{id}/update', 'CommentController@update');
+    Route::post('/article/{post}/comment/{id}/delete', 'CommentController@destroy');
 });

@@ -16,16 +16,23 @@
 			{!! nl2br(e($post->description)) !!}
 		</div>
 	</div>
-	<div style="margin-bottom:20px;" v-if="user">
+	@auth
+	<div style="margin-bottom:20px;">
 		<div class="blog-text-border">
 			<textarea class="form-control" rows="3" name="body" id="body" onkeyup="success()" placeholder="Leave a comment" v-model="commentBox"></textarea>
-			<button class="btn btn-success" id="button" disabled="true" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+			<div style="margin-top:10px" v-if="loading">
+            	<i class="fas fa-spinner fa-spin" style="font-size:24px"></i>
+        	</div>
+        	<div v-else>
+				<button class="btn btn-success" id="button" disabled="true" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+			</div>
 		</div>
 	</div>
-	<div class="blog-text-border" v-else>
+	@else
+	<div class="blog-text-border">
 		<p class="lead text-center">You must be logged in to submit a comment.&nbsp;<a href="/login">Login Now &gt;&gt;</a></p>
 	</div>
-
+	@endauth
 	<div v-if="comments[0]">
 		<div class="blog-text-border">
 			<p class="lead"><b>@{{comments.length}} thought(s) on "{{ $post->title }}"</b></p>
@@ -41,9 +48,24 @@
 			        <p>
 			          @{{comment.body}}
 			        </p>
-			        <span style="color: #aaa;">on @{{comment.created_at}}</span>
+			        <span style="color: #aaa;">on @{{comment.updated_at}}</span><br />
 			    </div>
-			    <button class="btn btn-secondary btn-sm" style="width: 60px" id="editbutton" style="margin-top:10px" @click.prevent="editComment(comment.body,comment.id)">Edit</button>
+			    @auth
+			    <div v-if="user.id == comment.user.id">
+			    <div class="media-right">
+			    	<div class="dropdown">
+			    		<a href="#" class="btn btn-default" data-toggle="dropdown">
+			    			<i class="fas fa-ellipsis-v"></i>
+			    		</a>
+			    	
+			    		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+			    			<a class="dropdown-item" @click.prevent="editComment(comment.body,comment.id)">Edit</a>
+			        		<a class="dropdown-item" @click.prevent="deleteComment(comment.id)">Delete</a>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+			    @endauth
 			</div>
 		</div>
 	</div>
@@ -61,7 +83,8 @@
 			comments: {},
 			commentBox: '',
 			post: {!! $post->toJson() !!},
-			user: {!! Auth::check() ? Auth::user()->toJson() : 'null' !!}
+			user: {!! Auth::check() ? Auth::user()->toJson() : 'null' !!},
+			loading: false
 		},
 		mounted() {
 			this.getComments();
@@ -84,15 +107,28 @@
 				});
 			},
 			postComment() {
+				this.loading = true;
 				axios.post('/api/article/'+this.post.id+'/comment', {
 					api_token: this.user.api_token,
 					body: this.commentBox
 				})
 				.then((response) => {
+					this.loading = false;
 					this.comments.unshift(response.data);
 					this.commentBox = '';
 				})
+				.then(function() {
+					swal({
+					  toast: true,
+					  position: 'top-end',
+					  showConfirmButton: false,
+					  timer: 3000,
+					  type: 'success',
+					  title: 'Post Successful'
+					});
+				})
 				.catch((error) => {
+					this.loading = false;
 					console.log(error.response);
 					swal({
 					  title: 'Error!',
@@ -108,7 +144,9 @@
 				  inputValue: message,
 				  confirmButtonText: 'Update Comment',
 				  inputPlaceholder: 'Type your message here',
-				  showCancelButton: true
+				  showCancelButton: true,
+				  showLoaderOnConfirm: true,
+				  closeOnConfirm: false
 				}).then((result) => {
 					if (result.value) {
 						axios.post('/api/article/'+this.post.id+'/comment/'+id+'/update', {
@@ -118,6 +156,14 @@
 						})
 						.then((response) => {
 							this.getComments();
+						})
+						.then(function() {
+							swal({
+								title: 'Post updated!',
+								type: 'success',
+								showConfirmButton: false,
+								timer: 1500
+							})
 						})
 						.catch((error) => {
 							console.log(error.response);
@@ -129,6 +175,46 @@
 							})
 						})
 					}
+				})
+			},
+			deleteComment: function(id) {
+				swal({
+		          title: "Are you sure want to remove this comment?",
+		          text: "You will not be able to recover this item",
+		          type: "warning",
+		          showCancelButton: true,
+		          confirmButtonClass: "btn-danger",
+		          confirmButtonText: "Confirm",
+		          cancelButtonText: "Cancel",
+		          closeOnConfirm: false,
+		          closeOnCancel: false
+		        }).then((result) => {
+		          	if (result.value) {
+			            axios.post('/api/article/'+this.post.id+'/comment/'+id+'/delete', {
+							api_token: this.user.api_token,
+							comment_id: id
+						})
+						.then((response) => {
+							this.getComments();
+						})
+						.then(function() {
+							swal({
+								title: 'Post deleted!',
+								type: 'success',
+								showConfirmButton: false,
+								timer: 1500
+							})
+						})
+						.catch((error) => {
+							console.log(error.response);
+							swal({
+							  title: 'Error!',
+							  text: error.response.data.errors.body,
+							  type: 'error',
+							  confirmButtonText: 'Ok'
+							})
+						})
+		      		}
 				})
 			},
 			listen() {

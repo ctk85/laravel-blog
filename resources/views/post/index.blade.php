@@ -5,9 +5,8 @@
         <div class="row">
             <main role="main" class="col-md-12">
                 <h1>My&nbsp;Posts
-                    <a href="{{ route('post.create') }}">
-                        <button type="button" class="btn btn-primary btn-sm">Create Post</button>
-                    </a>
+                    {!! Html::linkRoute('post.create', 'Create Post', null, ['class' => 'btn btn-primary btn-sm']) !!}
+                    {!! Html::linkRoute('home', 'Go Home', null, ['class' => 'btn btn-warning btn-sm']) !!}
                 </h1>
                 <table class="table table-striped table-hover">
                     <thead>

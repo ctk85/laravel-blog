@@ -26,12 +26,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = DB::table('users')
-            ->leftjoin('posts', 'users.id', '=', 'posts.user_id')
-            ->orderBy('posts.created_at', 'desc')
-            ->where('users.id', Auth::user()->id)
-            ->paginate(10);
-
+        $posts = Post::whereUserId(Auth::id())->with('user')->latest()->paginate(10);
+        
         return view('post.index', compact('posts'));
     }
 
@@ -42,12 +38,9 @@ class PostController extends Controller
      */
     public function indexAdmin()
     {
-        $posts = DB::table('users')
-            ->join('posts', 'users.id', '=', 'posts.user_id')
-            ->orderBy('posts.created_at', 'desc')
-            ->paginate(10);
+        $posts = Post::latest()->with('user')->paginate(10);
             
-            return view('post.index-admin', compact('posts'));
+        return view('post.index-admin', compact('posts'));
     }
 
     /**
@@ -75,13 +68,13 @@ class PostController extends Controller
         ]);
 
         $post = Post::create([
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'description' => $request->description,
-            'user_id' => Auth::user()->id
+            'title' => $request->input('title'),
+            'slug' => $request->input('slug'),
+            'description' => $request->input('description'),
+            'user_id' => Auth::id()
         ]);
 
-        alert()->success('Success!','Blog post has been successfully added!');
+        alert()->success('Success!','Blog post, '.$request->input('title').', has been updated successfully!');
         return redirect()->route('home');
     }
 

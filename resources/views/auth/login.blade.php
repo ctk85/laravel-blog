@@ -56,13 +56,18 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p>or sign in with:</p>
+                    <a href="redirect"><i class="fab fa-facebook-square fa-3x"></i></a>
+                    <a href="#"><i class="fab fa-google-plus-square fa-3x"></i></a>
+                </div>
                 </div>
             </div>
         </div>

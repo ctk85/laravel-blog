@@ -5,28 +5,32 @@
 @endsection
 
 @section('content')
-<div class="col-sm-9 blog-main">
+<div class="col-sm-9 blog-main" style="margin-bottom:20px;">
 	<div class="blog-post">
-		<div class="blog-text-border">
-			<h2 class="blog-post-title">{{ $post->title }}</h2>
-			<p class="blog-post-meta">
-				<small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} 
-					by <a href="#">{{ $author }}</a></i></small></p>
-			<hr />
-			<p class="text-justify">
-				{!! nl2br(e($post->description)) !!}
-			</p>
+		<div class="card mb-3">
+			<div class="card-body">
+				<h2 class="blog-post-title">{{ $post->title }}</h2>
+				<p class="blog-post-meta">
+					<small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} 
+						by <a href="#">{{ $author }}</a></i></small></p>
+				<hr />
+				<p class="text-justify">
+					{!! nl2br(e($post->description)) !!}
+				</p>
+			</div>
 		</div>
 	</div>
 	@auth
 	<div style="margin-bottom:20px;">
-		<div class="blog-text-border">
-			<textarea class="form-control" rows="3" name="body" id="body" onkeyup="success()" placeholder="Leave a comment" v-model="commentBox"></textarea>
-			<div style="margin-top:10px" v-if="loading">
-            	<i class="fas fa-spinner fa-spin" style="font-size:24px"></i>
-        	</div>
-        	<div v-else>
-				<button class="btn btn-success" id="button" disabled="true" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+		<div class="card mb3">
+			<div class="card-body">
+				<textarea class="form-control" rows="3" name="body" id="body" onkeyup="success()" placeholder="Leave a comment" v-model="commentBox"></textarea>
+				<div style="margin-top:10px" v-if="loading">
+	            	<i class="fas fa-spinner fa-spin" style="font-size:24px"></i>
+	        	</div>
+	        	<div v-else>
+					<button class="btn btn-success" id="button" disabled="true" style="margin-top:10px" @click.prevent="postComment">Save Comment</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -36,7 +40,8 @@
 	</div>
 	@endauth
 	<div v-if="comments[0]">
-		<div class="blog-text-border">
+		<div class="card mb3">
+			<div class="card-body">
 			<p class="lead"><b>@{{comments.length}} thought(s) on "{{ $post->title }}"</b></p>
 			<hr />
 			<div class="media" style="margin-top:20px;" v-for="comment in comments">
@@ -71,13 +76,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="blog-text-border" v-else>
-		<p class="lead text-center">Be the first to leave a comment!</p>
+	</div>
+	<div class="card mb-3" v-else>
+		<div class="card-body">
+			<p class="lead text-center">Be the first to leave a comment!</p>
+		</div>
 	</div>
 </div>
 
 @include('partials._sidebar')
-
 @endsection
 
 @section('scripts')
@@ -153,6 +160,7 @@
 				  showLoaderOnConfirm: true,
 				  closeOnConfirm: false
 				}).then((result) => {
+					this.loading = true;
 					if (result.value) {
 						axios.post('/api/article/'+this.post.id+'/comment/'+id+'/update', {
 							api_token: this.user.api_token,
@@ -160,6 +168,7 @@
 							comment_id: id
 						})
 						.then((response) => {
+							this.loading = false;
 							this.getComments();
 						})
 						.then(function() {
@@ -171,6 +180,7 @@
 							})
 						})
 						.catch((error) => {
+							this.loading = false;
 							console.log(error.response);
 							swal({
 							  title: 'Error!',

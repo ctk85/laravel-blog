@@ -16,6 +16,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/article/{id}', 'HomeController@showArticle')->name('article');
 
+Route::get('/blog', 'HomeController@index')->name('home');
 Route::get('blog/{slug}', 'BlogController@getArticle')
 	->name('blog.article')
 	->where('slug', '[\w\d\-\_]+');
@@ -28,3 +29,7 @@ Route::resource('post', 'PostController');
 
 Route::resource('profile', 'ProfileController');
 Route::post('/profile/update_avatar/{id}', 'ProfileController@updateAvatar')->name('profile.update_avatar');
+
+//Facebook Auth
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');

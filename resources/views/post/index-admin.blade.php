@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    All Posts
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -24,7 +28,7 @@
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $post->title }}</td>
-                                <td>{{ $post->name }}</td>
+                                <td>{{ $post->user->name }}</td>
                                 <td>
                                     <a href="{{ route('post.show', ['id' => $post->id]) }}">view more</a>
                                 </td>

@@ -21,6 +21,7 @@ class PostTableSeeder extends Seeder
         		'title' => $faker->sentence,
         		'description' => $faker->paragraphs(rand(3, 10), true),
         		'user_id' => 1,
+                'slug' => $faker->unique->word,
                 'created_at' => $faker->date
         	]);
         }

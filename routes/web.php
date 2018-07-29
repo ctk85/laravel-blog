@@ -16,6 +16,10 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/article/{id}', 'HomeController@showArticle')->name('article');
 
+Route::get('blog/{slug}', 'BlogController@getArticle')
+	->name('blog.article')
+	->where('slug', '[\w\d\-\_]+');
+
 Route::get('/post-admin', 'PostController@indexAdmin')
 	->middleware('admin')
 	->name('post.index-admin');

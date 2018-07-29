@@ -68,9 +68,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+            'description' => 'required'
+        ]);
+
         $post = Post::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
             'user_id' => Auth::user()->id
         ]);
 
@@ -111,12 +118,19 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+            'description' => 'required'
+        ]);
+
         $post = Post::find($id);
         $post->title = $request->title;
         $post->description = $request->description;
+        $post->slug = $request->slug;
         $post->save();
 
-        alert()->success('Blog post titled, '.$post->title.', has been updated successfully!');
+        alert()->success('Success!','Blog post, '.$post->title.', has been updated successfully!');
         return redirect()->route('post.index');
     }
 

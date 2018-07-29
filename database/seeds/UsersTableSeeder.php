@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-    	// Make sure everyone has the same password
+    	// Create password to be used for all entries
     	$password = Hash::make('king');
 
     	// Admin user

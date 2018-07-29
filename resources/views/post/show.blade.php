@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
+@section('title')
+  
+@endsection
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8">
             <div class="card border-dark mb-3">
-                <div class="card-header">{{ $post->title }}</div>
+                <div class="card-header">
+                  {{ $post->title }}
+                </div>
                 <div class="card-body text-dark">
                     <p class="card-text text-justify">
                         {!! nl2br(e($post->description)) !!}
@@ -15,11 +21,11 @@
         </div>
         <div class="col-md-4">
             <div class="card border-primary mb-3">
-                <div class="card-header">Modify Post</div>
+                <div class="card-header">Post Details</div>
                 <div class="card-body text-dark">
                     <dl class="row">
                         <dt class="col-sm-5">URL:</dt>
-                        <dd class="col-sm-7"><!--Html::linkRoute('url($post->slug)', 'url($post->slug)') -->(SLUG)</dd>
+                        <dd class="col-sm-7"><a href="{{ URL::to("/blog/{$post->slug}") }}">{{ URL::to("/blog/{$post->slug}") }}</a></dd>
                     </dl>
                     <dl class="row">
                         <dt class="col-sm-5">Created At:</dt>
@@ -43,7 +49,7 @@
                     </dl>
                     <dl class="row">
                         <dt class="col-sm-12">
-                            {!! Html::linkRoute('post.index', '<< See all posts', null, ['class' => 'btn btn-warning btn-sm form-control']) !!}
+                            {!! Html::linkRoute('post.index-admin', '<< See all posts', null, ['class' => 'btn btn-warning btn-sm form-control']) !!}
                         </dt>
                     </dl>
                 </div>
@@ -78,9 +84,7 @@
       }).then(function() {
         form.submit();
     });
-  } else {
-    swal("Cancelled", "You Cancelled", "error");
-}
+  }
 })
 });
 </script>

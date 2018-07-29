@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="col-sm-8 blog-main">
+<div class="col-sm-9 blog-main">
 	<div class="blog-post">
 		<div class="blog-text-border">
 			<h2 class="blog-post-title">{{ $post->title }}</h2>
@@ -76,30 +76,8 @@
 	</div>
 </div>
 
-<aside class="col-sm-4 ml-sm-auto blog-sidebar">
-	<div class="blog-text-border">
-		<div class="sidebar-module">
-		    <h2 class="blog-post-title">Recent Posts</h2>
-		    <p class="blog-post-meta">
-				<small>Today is&nbsp;<i>{{ date('l jS \of F Y') }}</i></small></p>
-			<hr />
-		    <ol class="list-unstyled">
-		        @foreach($articles as $article)
-		            <li><a href="{{ url('blog', [$article->slug]) }}">{{ $article->title }}</a> 
-		            	posted on <i>{{ Carbon\Carbon::parse($article->created_at)->format('l jS \of F Y') }}</i></li>
-		        @endforeach
-		    </ol>
-		</div>
-		<div class="sidebar-module">
-		    <h4>Elsewhere</h4>
-		    <ol class="list-unstyled">
-		        <li><a href="#">GitHub</a></li>
-		        <li><a href="#">Twitter</a></li>
-		        <li><a href="#">Facebook</a></li>
-		    </ol>
-		</div>
-	</div>
-</aside>
+@include('partials._sidebar')
+
 @endsection
 
 @section('scripts')

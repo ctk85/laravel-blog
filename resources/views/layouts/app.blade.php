@@ -16,10 +16,6 @@
                 
                 @yield('content')
 
-                @if(Request::is('home','/'))
-                    @include('partials._sidebar')
-                @endif
-
             </div>
         </main>
 

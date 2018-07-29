@@ -15,14 +15,17 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
+        // Generate an array of the last 20 months
+        $months = array_of_months(20,'Y-m-d H:i:s');
+
         $faker = Faker::create();
-        foreach(range(1,20) as $index) {
+        foreach($months as $month) {
         	Post::create([
-        		'title' => $faker->sentence,
+        		'title' => $faker->name,
         		'description' => $faker->paragraphs(rand(3, 10), true),
         		'user_id' => 1,
-                'slug' => $faker->unique->word,
-                'created_at' => $faker->date
+                'slug' => $faker->unique->word.'-'.$faker->unique->word,
+                'created_at' => $month
         	]);
         }
     }

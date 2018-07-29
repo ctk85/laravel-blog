@@ -26,13 +26,7 @@
                     <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-        <div class="row justify-content-center">
-        <form id="formEditProfile" action="{{ route('profile.edit', ['id' => $user->id]) }}">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-info">Edit Profile</button>
-                </div>
+                {!! Html::linkRoute('home', 'Home', null, ['class' => 'btn btn-warning']) !!}
             </form>
         </div>
     </div>

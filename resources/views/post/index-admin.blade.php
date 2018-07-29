@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <main role="main" class="col-sm-12 ml-sm-auto pt-3">
+            <main role="main" class="col-md-12">
                 <h1>All&nbsp;Posts
                     <a href="{{ route('post.create') }}">
                         <button type="button" class="btn btn-primary btn-sm">Create Post</button>

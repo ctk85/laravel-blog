@@ -118,16 +118,25 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
-            'description' => 'required'
-        ]);
-
+        //Validate
         $post = Post::find($id);
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->slug = $request->slug;
+        if ($request->input('slug') == $post->slug) {
+            $this->validate($request, [
+                'title' => 'required|max:255',
+                'description' => 'required'
+            ]);
+        } else {
+            $this->validate($request, [
+                'title' => 'required|max:255',
+                'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+                'description' => 'required'
+            ]);
+        }
+
+        //Save the data
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->slug = $request->input('slug');
         $post->save();
 
         alert()->success('Success!','Blog post, '.$post->title.', has been updated successfully!');

@@ -30,14 +30,15 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $faker = Faker::create();
-        foreach(range(1,20) as $index) {
+        foreach(range(2,20) as $index => $value) {
         	User::create([
         		'name' => $faker->name,
             	'email' => $faker->unique()->safeEmail,
             	'password' => $password,
+                'id' => $value,
                 'api_token' => str_random(60),
                 'remember_token' => str_random(10)
         	]);
-        }
+        } 
     }
 }

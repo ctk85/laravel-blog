@@ -7,7 +7,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SocialAccount extends Model
 {
-	use Activitylog;
+	use LogsActivity;
 	/**
      * LogActivity attributes.
      *

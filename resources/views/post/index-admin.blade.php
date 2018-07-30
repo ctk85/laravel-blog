@@ -12,6 +12,7 @@
                     {!! Html::linkRoute('post.create', 'Create Post', null, ['class' => 'btn btn-primary btn-sm']) !!}
                     {!! Html::linkRoute('home', 'Go Home', null, ['class' => 'btn btn-warning btn-sm']) !!}
                 </h1>
+                @if($posts->count() > 0)
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
@@ -23,7 +24,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($posts)
                         @foreach($posts as $post)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
@@ -35,10 +35,15 @@
                                 <td>{{ Carbon\Carbon::parse($post->created_at)->format('d-m-Y')  }}</td>
                             </tr>
                         @endforeach
-                    @else
-                        <p class="text-center text-primary">No Posts created Yet!</p>
-                    @endif
-                </table><Br>
+                    </tbody>
+                </table><br />
+                @else
+                <div class="jumbotron">
+                    <h4 class="text-center">No Posts created Yet!</h4>
+                    <hr width="50%">
+                    <p class="lead text-center">{!! Html::linkRoute('post.create', 'Click here to create your first post!', null) !!}</p>
+                </div>
+                @endif
                 {{ $posts->links() }}
             </main>
         </div>

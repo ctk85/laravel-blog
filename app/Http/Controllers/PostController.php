@@ -86,7 +86,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         return view('post.show', compact('post'));
     }
 
@@ -98,7 +98,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         return view('post.edit', compact('post'));
     }
 
@@ -112,7 +112,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //Validate
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         if ($request->input('slug') == $post->slug) {
             $this->validate($request, [
                 'title' => 'required|max:255',
@@ -144,7 +144,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->delete();
 
         return redirect()->route('post.index');

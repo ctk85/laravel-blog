@@ -3,10 +3,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class SocialAccount extends Model
 {
-    protected $fillable = ['user_id', 'provider_user_id', 'provider'];
+	use Activitylog;
+	/**
+     * LogActivity attributes.
+     *
+     * @var array
+     */
+	protected static $logAttributes = [
+		'user_id', 'provider_user_id', 'provider'
+	];
+
+	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+    	'user_id', 'provider_user_id', 'provider'
+    ];
 
     public function user()
     {

@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Notification;
+use Illuminate\Http\Request;
+use App\Notifications\NewUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\NewUserRegisteredSuccessfully;
+
 
 class RegisterController extends Controller
 {
@@ -28,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -38,6 +43,25 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+
+        alert()->success('Success!','Your account has been created.')
+            ->footer('Please check your eMail for the activation link.')
+            ->showConfirmButton()
+            ->showCloseButton();
+        $user->notify(new NewUserRegisteredSuccessfully($user));
     }
 
     /**
@@ -63,10 +87,43 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        /*
+        try {
+            // Notify admin(s)
+            $admin = User::where('isAdmin', 1)->get();
+            Notification::send($admin, new NewUser($data));
+
+        } catch(\Exception $e){}
+        */
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'api_token' => str_random(60),
+            'activation_code' => str_random(30).time()
         ]);
+    }
+
+    /**
+     * Activate the user with given activation code.
+     *
+     * @param string $activationCode
+     * @return string
+     */
+    public function activateUser(string $activationCode)
+    {
+        $user = User::whereActivationCode($activationCode)->first();
+        if (!$user) {
+            return redirect()->to('/login')
+                ->withErrors("The code does not exist for any user in our system.");
+        }
+        $user->status = 1;
+        $user->activation_code = null;
+        $user->save();
+        auth()->login($user);
+        
+        alert()->success('Success!','Your account is now active!');
+        return redirect()->route('home');
     }
 }

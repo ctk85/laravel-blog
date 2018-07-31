@@ -16,17 +16,16 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
     	// Create password to be used for all entries
-    	$password = Hash::make('king');
+    	$password = Hash::make('supernova');
 
     	// Admin user
     	User::create([
             'name' => 'Chris Keller',
-            'email' => 'admin@example.com',
+            'email' => 'ctk8501@gmail.com',
             'password' => $password,
             'isAdmin' => 1,
             'id' => 1,
-            'api_token' => str_random(60),
-            'remember_token' => str_random(10)
+            'api_token' => str_random(60)
         ]);
 
         $faker = Faker::create();
@@ -36,8 +35,7 @@ class UsersTableSeeder extends Seeder
             	'email' => $faker->unique()->safeEmail,
             	'password' => $password,
                 'id' => $value,
-                'api_token' => str_random(60),
-                'remember_token' => str_random(10)
+                'api_token' => str_random(60)
         	]);
         } 
     }

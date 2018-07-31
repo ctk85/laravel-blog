@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -27,12 +27,26 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
 
     protected function authenticated(Request $request, $user)
     {
-        toast('Logged in successfully!','success','top-right');
+        if ($user->status === 1) {
+            toast('Logged in successfully!','success','top-right');
+            return redirect('/');
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        alert()->warning('Warning','Your account is not active')
+            ->footer('<a href="#">Click here to re-send your activation link.</a>')
+            ->showConfirmButton()
+            ->showCloseButton();
+
+        return redirect('/');
     }
 
     /**

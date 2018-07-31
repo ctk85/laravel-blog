@@ -72,6 +72,7 @@
 	<div class="blog-text-border" v-else>
 		<p class="lead text-center">Be the first to leave a comment!</p>
 	</div>
+
 </div>
 @endsection
 
@@ -221,7 +222,20 @@
 				Echo.channel('post.'+this.post.id)
 				.listen('NewComment', (comment) => {
 					this.comments.unshift(comment);
-				})
+				});
+				Echo.join('post.'+this.post.id)
+				    .here((users) => {
+				        this.count = users.length;
+				    })
+				    .joining((user) => {
+				        this.count++;
+				    })
+				    .leaving((user) => {
+				        this.count--;
+				    })
+				    .listen('NewComment', (e) => {
+				        this.comments.unshift(e);
+				});
 			}
 		}
 	})

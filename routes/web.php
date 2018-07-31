@@ -33,3 +33,6 @@ Route::post('/profile/update_avatar/{id}', 'ProfileController@updateAvatar')->na
 //Facebook Auth
 Route::get('/redirect', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
+
+//Activate Account
+Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');

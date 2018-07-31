@@ -42,10 +42,11 @@ class NewComment implements ShouldBroadcastNow
     {
         return [
             'body' => $this->comment->body,
-            'created_at' => $this->comment->created_at->toFormattedDateString(),
+            'created_at' => $this->comment->created_at->toDateTimeString(),
             'user' => [
                 'name' => $this->comment->user->name,
-                'avatar' => $this->comment->user->avatar
+                'avatar' => $this->comment->user->avatar,
+                'id' => $this->comment->user->id
             ]
         ];
     }

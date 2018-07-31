@@ -55,7 +55,7 @@
 			        <p>
 			          @{{comment.body}}
 			        </p>
-			        <span style="color: #aaa;">on @{{comment.updated_at}}</span><br />
+			        <span style="color: #aaa;">on @{{comment.created_at}}</span><br />
 			    </div>
 			    @auth
 			    <div v-if="user.id == comment.user.id">
@@ -236,7 +236,7 @@
 				Echo.channel('post.'+this.post.id)
 				.listen('NewComment', (comment) => {
 					this.comments.unshift(comment);
-				})
+				});
 			}
 		}
 	})

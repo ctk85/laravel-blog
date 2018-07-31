@@ -61,7 +61,13 @@ class RegisterController extends Controller
             ->footer('Please check your eMail for the activation link.')
             ->showConfirmButton()
             ->showCloseButton();
-        $user->notify(new NewUserRegisteredSuccessfully($user));
+       
+        try { 
+            $user->notify(new NewUserRegisteredSuccessfully($user));
+            
+            $admin = User::where('isAdmin', 1)->get();
+            Notification::send($admin, new NewUser($user));
+        } catch (\Exception $e) {} 
     }
 
     /**
@@ -115,7 +121,7 @@ class RegisterController extends Controller
     {
         $user = User::whereActivationCode($activationCode)->first();
         if (!$user) {
-            return redirect()->to('/login')
+            return redirect('/login')
                 ->withErrors("The code does not exist for any user in our system.");
         }
         $user->status = 1;
@@ -124,6 +130,6 @@ class RegisterController extends Controller
         auth()->login($user);
         
         alert()->success('Success!','Your account is now active!');
-        return redirect()->route('home');
+        return redirect('/');
     }
 }

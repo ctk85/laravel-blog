@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -50,7 +51,9 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
-        return view('post.create');
+        $categories = Category::pluck('name','id');
+
+        return view('post.create', compact('categories'));
     }
 
     /**
@@ -64,13 +67,14 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
-            'description' => 'required'
+            'description' => 'required',
         ]);
 
         $post = Post::create([
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
             'description' => $request->input('description'),
+            'category_id' => $request->input('category'),
             'user_id' => Auth::id()
         ]);
 

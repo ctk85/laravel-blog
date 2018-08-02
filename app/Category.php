@@ -5,17 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Comment extends Model
+class Category extends Model
 {
-    use LogsActivity;
-    
-    /**
+	use LogsActivity;
+
+	/**
      * LogActivity attributes.
      *
      * @var array $logAttributes
      */
     protected static $logAttributes = [
-        'user_id', 'post_id'
+    	'name', 'id'
     ];
 
     /**
@@ -23,17 +23,12 @@ class Comment extends Model
      *
      * @var array $fillable
      */
-    protected $fillable = [
-        'body', 'user_id', 'post_id'
-    ];
+	protected $fillable = [
+		'name'
+	];
 
-    public function post()
+    public function posts()
     {
-    	return $this->belongsTo('App\Post');
-    }
-
-    public function user()
-    {
-    	return $this->belongsTo('App\User');
+    	return $this->hasMany('App\Post');
     }
 }

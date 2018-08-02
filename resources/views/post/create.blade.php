@@ -14,9 +14,14 @@
                         {{ Form::label('title', 'Title') }}
                         {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Enter title']) }}
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         {{ Form::label('slug', 'Slug') }}
                         {{ Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'Enter slug']) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('category', 'Category') }}
+                        {{ Form::select('category', $categories, null, ['class' => 'form-control']) }}
+                        <small id="nameHelp" class="form-text text-muted">To add a new category, click <a href="/category">here</a></small>
                     </div>
                     <div class="form-group">
                         {{ Form::label('description', 'Description') }}

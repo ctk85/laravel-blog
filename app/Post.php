@@ -8,22 +8,23 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Post extends Model
 {
     use LogsActivity;
+    
     /**
      * LogActivity attributes.
      *
-     * @var array
+     * @var array $logAttributes
      */
     protected static $logAttributes = [
-        'title', 'slug', 'user_id'
+        'title', 'slug', 'user_id',
     ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
-        'title', 'description', 'user_id', 'slug'
+        'title', 'description', 'user_id', 'slug', 'category_id',
     ];
 
     public function user()
@@ -34,5 +35,12 @@ class Post extends Model
     public function comments()
     {
     	return $this->hasMany('App\Comment');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category')->withDefault(function ($category) {
+            $category->name = 'General';
+        });
     }
 }

@@ -14,7 +14,7 @@ class User extends Authenticatable
     /**
      * LogActivity attributes.
      *
-     * @var array
+     * @var array $logAttributes
      */
     protected static $logAttributes = [
         'name', 'email', 'id', 'status'
@@ -23,7 +23,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
         'name', 'email', 'password', 'api_token', 'status', 'activation_code'
@@ -32,10 +32,10 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array $hidden
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token'
     ];
 
     public function posts()

@@ -8,10 +8,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class SocialAccount extends Model
 {
 	use LogsActivity;
-	/**
+	
+    /**
      * LogActivity attributes.
      *
-     * @var array
+     * @var array $logAttributes
      */
 	protected static $logAttributes = [
 		'user_id', 'provider_user_id', 'provider'
@@ -20,7 +21,7 @@ class SocialAccount extends Model
 	/**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array $fillable
      */
     protected $fillable = [
     	'user_id', 'provider_user_id', 'provider'

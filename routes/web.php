@@ -26,6 +26,7 @@ Route::get('/post-admin', 'PostController@indexAdmin')
 	->name('post.index-admin');
 
 Route::resource('post', 'PostController');
+Route::resource('category', 'CategoryController');
 
 Route::resource('profile', 'ProfileController');
 Route::post('/profile/update_avatar/{id}', 'ProfileController@updateAvatar')->name('profile.update_avatar');

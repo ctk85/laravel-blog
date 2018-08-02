@@ -24,13 +24,15 @@
                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
                 @else
-                    <li>{!! Html::linkRoute('post.index-admin', 'Manage Posts', null, ['class' => 'btn btn-outline-secondary my-2 my-sm-0']) !!}</li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('profile.index') }}">{{ __('Profile') }}</a>
+                            <a class="dropdown-item" href="{{ route('post.index-admin') }}">{{ __('Posts') }}</a>
+                            <a class="dropdown-item" href="{{ route('category.index') }}">{{ __('Categories') }}</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">

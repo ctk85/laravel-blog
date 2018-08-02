@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use App\Post;
 
 use Faker\Factory as Faker;
@@ -25,7 +24,8 @@ class PostTableSeeder extends Seeder
         		'description' => $faker->paragraphs(rand(3, 10), true),
         		'user_id' => 1,
                 'slug' => $faker->unique->word.'-'.$faker->unique->word,
-                'created_at' => $month
+                'created_at' => $month,
+                'category_id' => rand(1,8)
         	]);
         }
     }

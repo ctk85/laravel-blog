@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
             'password' => $password,
             'isAdmin' => 1,
             'id' => 1,
+            'status' => 1,
             'api_token' => str_random(60)
         ]);
 

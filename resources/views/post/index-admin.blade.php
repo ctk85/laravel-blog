@@ -19,6 +19,7 @@
                         <th>#</th>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Category</th>
                         <th>Learn more</th>
                         <th>Created on</th>
                     </tr>
@@ -29,6 +30,7 @@
                                 <th>{{ $loop->iteration }}</th>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->user->name }}</td>
+                                <td>{{ $post->category->name }}
                                 <td>
                                     <a href="{{ route('post.show', ['id' => $post->id]) }}">view more</a>
                                 </td>

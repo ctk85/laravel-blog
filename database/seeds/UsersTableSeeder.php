@@ -15,13 +15,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-    	// Create password to be used for all entries
-    	$password = Hash::make('supernova');
+    	/** Password for all users **/
+    	$password = Hash::make('test_password');
 
-    	// Admin user
+    	/** Admin user **/
     	User::create([
-            'name' => 'Chris Keller',
-            'email' => 'ctk8501@gmail.com',
+            'name' => 'Administrator',
+            'email' => 'admin@exmaple.com',
             'password' => $password,
             'isAdmin' => 1,
             'id' => 1,
@@ -29,8 +29,9 @@ class UsersTableSeeder extends Seeder
             'api_token' => str_random(60)
         ]);
 
+        /** Fake users **/
         $faker = Faker::create();
-        foreach(range(2,20) as $index => $value) {
+        foreach(range(2,10) as $index => $value) {
         	User::create([
         		'name' => $faker->name,
             	'email' => $faker->unique()->safeEmail,

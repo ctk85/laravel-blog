@@ -15,7 +15,7 @@ class Category extends Model
      * @var array $logAttributes
      */
     protected static $logAttributes = [
-    	'name', 'id'
+    	'name', 'id',
     ];
 
     /**
@@ -24,7 +24,7 @@ class Category extends Model
      * @var array $fillable
      */
 	protected $fillable = [
-		'name'
+		'name', 'slug',
 	];
 
     public function posts()

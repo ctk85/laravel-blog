@@ -93,15 +93,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        /*
-        try {
-            // Notify admin(s)
-            $admin = User::where('isAdmin', 1)->get();
-            Notification::send($admin, new NewUser($data));
-
-        } catch(\Exception $e){}
-        */
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -131,5 +122,30 @@ class RegisterController extends Controller
         
         alert()->success('Success!','Your account is now active!');
         return redirect('/');
+    }
+
+    public function sendActivationLink(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $user = User::whereEmail($request->email)->first();
+
+        if (is_null($user->activation_code)) return redirect('/')
+            ->withErrors('Invalid activation code.');
+
+        try {
+            $user->notify(new NewUserRegisteredSuccessfully($user));        
+        
+        } catch (\Exception $e) {}
+
+        alert()->info('Sent.', 'Please check your eMail for the activation link.');
+        return redirect('/');
+    }
+
+    public function showActivationLinkForm()
+    {
+        return view('auth.activation-form');
     }
 }

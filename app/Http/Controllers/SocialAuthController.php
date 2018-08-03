@@ -9,24 +9,32 @@ use Auth;
 
 class SocialAuthController extends Controller
 {
-    public function redirect()
+    public function redirect($provider)
     {
-    	return Socialite::driver('facebook')->redirect();
-    }
+        try {
+           
+           return Socialite::driver($provider)->redirect();
+        
+        } catch ( \InvalidArgumentException $e ) {
 
-    public function callback(SocialAccountService $service)
+            return redirect('/login')->withErrors($e->getMessage());
+        }
+    }   
+
+    public function callback(SocialAccountService $service, $provider)
     {
     	try {
-    		$user = $service->createOrGetUser(Socialite::driver('facebook')->user());
+
+    		$user = $service->createOrGetUser(Socialite::driver($provider)->user(), $provider);
     		Auth::login($user, true);
 
     		toast('Logged in successfully!','success','top-right');
     		
-    		return redirect()->to('/home');
-    	
-    	} catch(\Exception $e) {
+    		return redirect('/');
 
-    		return redirect('/redirect');
+    	} catch(\Exception $e) {
+            
+    		return redirect('/login')->withErrors($e->getMessage());
     	}
     }
 }

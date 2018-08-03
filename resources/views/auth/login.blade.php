@@ -63,11 +63,11 @@
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center text-muted">
                     <p>or sign in with:</p>
-                    <a href="redirect"><i class="fab fa-facebook-square fa-3x"></i></a>
-                    <a href="#"><i class="fab fa-google-plus-square fa-3x"></i></a>
-                </div>
+                    <a href="/auth/facebook/redirect"><i class="fab fa-facebook-square fa-3x"></i></a>
+                    <a href="/auth/google/redirect"><i class="fab fa-google-plus-square fa-3x"></i></a>
+                    <a href="/auth/github/redirect"><i class="fab fa-github-square fa-3x"></i></a>
                 </div>
             </div>
         </div>

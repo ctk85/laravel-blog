@@ -12,7 +12,7 @@
 				<h2 class="blog-post-title">{{ $post->title }}</h2>
 				<p class="blog-post-meta">
 					<small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} 
-						by <a href="#">{{ $author }}</a></i></small></p>
+						by <a href="#">{{ $post->user->name }}</a></i></small></p>
 				<hr />
 				<p class="text-justify">
 					{!! nl2br(e($post->description)) !!}

@@ -35,7 +35,6 @@ class CategoryController extends Controller
         $slug = str_replace(' ', '-', strtolower($name));
 
         $category = new Category;
-
         $category->name = $name;
         $category->slug = $slug;
         $category->save();

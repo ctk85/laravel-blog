@@ -26,7 +26,8 @@ class SocialAuthController extends Controller
     	try {
 
     		$user = $service->createOrGetUser(Socialite::driver($provider)->user(), $provider);
-    		Auth::login($user, true);
+
+            Auth::login($user, true);
 
     		toast('Logged in successfully!','success','top-right');
     		

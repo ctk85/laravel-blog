@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\SocialAccount;
 use Notification;
 use App\User;
+use File;
 
 class SocialAccountService extends Controller
 {
@@ -31,6 +32,11 @@ class SocialAccountService extends Controller
 
     		if(!$user) {
 
+                if (!is_null($providerUser->getAvatar())) {
+                    $fileContents = file_get_contents($providerUser->getAvatar());
+                    File::put(public_path() . '/storage/avatars/' . $providerUser->getId() . ".jpg", $fileContents);
+                }
+
                 $name = ($providerUser->getName()) ?: $providerUser->getNickname();
 
     			$user = User::create([
@@ -38,7 +44,8 @@ class SocialAccountService extends Controller
     				'email' => $providerUser->getEmail(),
                     'password' => md5(rand(1,10000)),
                     'api_token' => str_random(60),
-                    'status' => 1
+                    'status' => 1,
+                    'avatar' => $providerUser->getId() . '.jpg',
     			]);
 
                 try {

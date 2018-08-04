@@ -35,7 +35,7 @@ class SocialAuthController extends Controller
 
     	} catch(\Exception $e) {
             
-    		return redirect('/login')->withErrors($e->getMessage());
+    		return redirect('/login');
     	}
     }
 }

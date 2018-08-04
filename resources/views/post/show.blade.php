@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-  
+  Post
 @endsection
 
 @section('content')
@@ -15,6 +15,12 @@
                 <div class="card-body text-dark">
                     <p class="card-text text-justify">
                         {!! nl2br(e($post->description)) !!}
+                        <hr>
+                        <div class="tags">
+                          @foreach($post->tags as $tag)
+                            <span class="badge badge-secondary">{{ $tag->name }}</span>
+                          @endforeach
+                        </div>
                     </p>
                 </div>
             </div>

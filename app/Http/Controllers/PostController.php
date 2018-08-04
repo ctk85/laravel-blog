@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -52,8 +53,9 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $categories = Category::pluck('name','id');
+        $tags = Tag::pluck('name','id');
 
-        return view('post.create', compact('categories'));
+        return view('post.create', compact('categories', 'tags'));
     }
 
     /**
@@ -70,13 +72,17 @@ class PostController extends Controller
             'description' => 'required',
         ]);
 
-        $post = Post::create([
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'description' => $request->input('description'),
-            'category_id' => $request->input('category'),
-            'user_id' => Auth::id()
-        ]);
+        $post = new Post;
+
+        $post->title = $request->title;
+        $post->slug = $request->slug;
+        $post->description = $request->description;
+        $post->category_id = $request->category;
+        $post->user_id = Auth::id();
+
+        $post->save();
+
+        $post->tags()->sync($request->tags, false);
 
         alert()->success('Success!','Blog post, '.$request->input('title').', has been updated successfully!');
         return redirect()->route('home');
@@ -103,7 +109,10 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.edit', compact('post'));
+        $categories = Category::pluck('name','id');
+        $tags = Tag::pluck('name','id');
+
+        return view('post.edit', compact('post','categories','tags'));
     }
 
     /**
@@ -134,7 +143,11 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->slug = $request->input('slug');
+        $post->category_id = $request->input('category');
+        
         $post->save();
+
+        $post->tags()->sync($request->tags, true);
 
         alert()->success('Success!','Blog post, '.$post->title.', has been updated successfully!');
         return redirect()->route('post.index');

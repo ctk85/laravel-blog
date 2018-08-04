@@ -17,6 +17,12 @@
 				<p class="text-justify">
 					{!! nl2br(e($post->description)) !!}
 				</p>
+				<hr>
+                <div class="tags">
+                  @foreach($post->tags as $tag)
+                    <span class="badge badge-secondary">{{ $tag->name }}</span>
+                  @endforeach
+                </div>
 			</div>
 		</div>
 	</div>

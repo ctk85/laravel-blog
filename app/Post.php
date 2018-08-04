@@ -43,4 +43,9 @@ class Post extends Model
             $category->name = 'General';
         });
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 }

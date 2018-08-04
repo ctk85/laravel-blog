@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
+use App\Tag;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,9 +20,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(10);
+        $tags = Tag::latest()->paginate(10);
 
-        return view('category.index', compact('categories'));
+        return view('tag.index', compact('tags'));
     }
 
     /**
@@ -34,19 +34,18 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:255|unique:categories,name'
+            'name' => 'required|max:255'
         ]);
 
         $name = ucfirst($request->name);
-        $slug = str_replace(' ', '-', strtolower($name));
 
-        $category = new Category;
-        $category->name = $name;
-        $category->slug = $slug;
-        $category->save();
+        $tag = new Tag;
+        $tag->name = $name;
+        $tag->save();
 
-        alert()->success('Success!','New Category created!');
-        return redirect()->route('category.index');
+        alert()->success('Success','New tag created!');
+        
+        return redirect()->route('tag.index');
     }
 
     /**

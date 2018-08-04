@@ -35,6 +35,7 @@
                             <a class="dropdown-item" href="{{ route('profile.index') }}">{{ __('Profile') }}</a>
                             <a class="dropdown-item" href="{{ route('post.index-admin') }}">{{ __('Posts') }}</a>
                             <a class="dropdown-item" href="{{ route('category.index') }}">{{ __('Categories') }}</a>
+                            <a class="dropdown-item" href="{{ route('tag.index') }}">{{ __('Tags') }}</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

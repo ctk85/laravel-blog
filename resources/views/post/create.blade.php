@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
+@section('title')
+    Create Post
+@endsection
+
+@section('stylesheets')
+    {!! Html::style('css/select2.min.css') !!}
+@endsection
+
 @section('content')
 <div class="container-fluid">
-    <div class="col-sm-12 ml-sm-auto pt-3">
+    <div class="col-sm-8 offset-md-2">
         <div class="card border-dark mb-3">
             <div class="card-header">
                 Create Post
@@ -23,6 +31,13 @@
                         {{ Form::select('category', $categories, null, ['class' => 'form-control']) }}
                         <small id="nameHelp" class="form-text text-muted">To add a new category, click <a href="/category">here</a></small>
                     </div>
+                    
+                    <div class="form-group">
+                        {{ Form::label('tags', 'Tags') }}
+                        {{ Form::select('tags[]', $tags, null, ['class' => 'form-control js-example-basic-multiple', 'multiple' => 'multiple']) }}
+                        <small id="nameHelp" class="form-text text-muted">To add a new tag, click <a href="/tag">here</a></small>
+                    </div>
+
                     <div class="form-group">
                         {{ Form::label('description', 'Description') }}
                         {{ Form::textarea('description', null, ['rows' => '6', 'class' => 'form-control', 'placeholder' => 'Description']) }}
@@ -34,4 +49,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/select2.min.js') !!}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
 @endsection

@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<div class="row">
 <div class="col-sm-9 blog-main" style="margin-bottom:20px;">
 	<div class="blog-post">
 		<div class="card mb-3">
@@ -17,12 +18,25 @@
 				<p class="text-justify">
 					{!! nl2br(e($post->description)) !!}
 				</p>
-				<hr>
+				<i class="fas fa-thumbs-up">&nbsp;</i>@{{ getlikes.length }}
                 <div class="tags">
                   @foreach($post->tags as $tag)
                     <span class="badge badge-secondary">{{ $tag->name }}</span>
                   @endforeach
                 </div>
+                @auth
+                <hr>
+        		<div class="text-center">
+			        <div v-if="isLiked" @click.prevent="unLike(post)">
+			            <a href="#"><i class="fas fa-thumbs-up fa-2x"></i></a>
+			            <b><font color="#aaa">Liked!</font></b>
+			      	</div>
+			      	<div v-else @click.prevent="like(post)">
+			            <a href="#"><i style="color:#aaa;" class="far fa-thumbs-up fa-2x"></i></a>
+			            <b><font color="#aaa">Like</font></b>
+			        </div>
+		    	</div>
+                @endauth
 			</div>
 		</div>
 	</div>
@@ -91,6 +105,7 @@
 </div>
 
 @include('partials._sidebar')
+</div>
 @endsection
 
 @section('scripts')
@@ -99,13 +114,16 @@
 		el: '#app',
 		data: {
 			comments: {},
+			getlikes: {},
 			commentBox: '',
 			post: {!! $post->toJson() !!},
 			user: {!! Auth::check() ? Auth::user()->toJson() : 'null' !!},
-			loading: false
+			loading: false,
+			isLiked: {!! $isLiked ? 'true' : 'false' !!},
 		},
 		mounted() {
 			this.getComments();
+			this.getLikes();
 			this.listen();
 		},
 		methods: {
@@ -243,7 +261,35 @@
 				.listen('NewComment', (comment) => {
 					this.comments.unshift(comment);
 				});
-			}
+			},
+			getLikes() {
+				axios.get('/api/article/'+this.post.id+'/getlikes')
+				
+				.then((response) => {
+					this.getlikes = response.data
+				})
+                .catch(response => console.log(response.data));
+			},
+			like() {
+                axios.post('/api/article/'+this.post.id+'/like', {
+                	api_token: this.user.api_token,
+                })
+                .then((response) => { 
+                	this.isLiked = true;
+                	this.getlikes.unshift(response.data);
+				})
+                .catch(response => console.log(response.data));
+            },
+            unLike() {
+                axios.post('/api/article/'+this.post.id+'/unLike', {
+                	api_token: this.user.api_token,
+                })
+                .then((response) => { 
+                	this.isLiked = false;
+                	this.getlikes.shift(response.data);
+				})
+                .catch(response => console.log(response.data));
+            }
 		}
 	})
 	function success() {

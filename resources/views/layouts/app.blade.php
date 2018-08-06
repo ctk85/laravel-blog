@@ -6,17 +6,12 @@
 
 <body>
     <div id="app">
-        
         @include('partials._header') 
         @include('partials._messages')
         @include('sweetalert::alert')
 
         <main role="main" class="container">
-            <div class="row">
-                
-                @yield('content')
-
-            </div>
+            @yield('content')
         </main>
 
         @include('partials._footer')

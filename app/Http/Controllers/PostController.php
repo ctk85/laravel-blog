@@ -162,8 +162,13 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        
+        $post->tags()->detach();
+        $post->likes()->detach();
+
         $post->delete();
 
         return redirect()->route('post.index');
     }
+
 }

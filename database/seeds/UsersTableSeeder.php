@@ -20,8 +20,8 @@ class UsersTableSeeder extends Seeder
 
     	/** Admin user **/
     	User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@exmaple.com',
+            'name' => 'Christopher Keller',
+            'email' => 'ckeller@live.com.au',
             'password' => $password,
             'isAdmin' => 1,
             'id' => 1,
@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         /** Fake users **/
+        /*
         $faker = Faker::create();
         foreach(range(2,10) as $index => $value) {
         	User::create([
@@ -39,6 +40,7 @@ class UsersTableSeeder extends Seeder
                 'id' => $value,
                 'api_token' => str_random(60)
         	]);
-        } 
+        }
+        */
     }
 }

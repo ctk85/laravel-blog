@@ -20,15 +20,16 @@ class HomeController extends Controller
         $filter = ($request->filter) ? $request->filter."%" : "%";
         $months = array_of_months(11);
 
-        $articles = Post::orderBy('created_at', 'desc')->limit(6)->get();
+        $articles = Post::latest()->limit(6)->get();
+        $articlesPop = Post::withCount('likes')->orderBy('likes_count', 'desc')->limit(6)->get();
 
         $posts = DB::table('users')
             ->leftjoin('posts', 'users.id', '=', 'posts.user_id')
             ->orderBy('posts.created_at', 'DESC')
             ->where('posts.created_at','LIKE',$filter)
-            ->paginate(3);
+            ->paginate(4);
         
-        return view('home', compact('posts','months','filter','articles'));
+        return view('home', compact('posts','months','filter','articles', 'articlesPop'));
     }
 
     /**

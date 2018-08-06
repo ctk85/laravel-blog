@@ -21,7 +21,7 @@
                         @foreach($tags as $tag)
                             <tr>
                                 <th>{{ $loop->iteration }}</th>
-                                <td>{{ $tag->name }}</td>
+                                <td><a href="{{ route('tag.show', $tag->id) }}">{{ $tag->name }}</a></td>
                                 <td>{{ Carbon\Carbon::parse($tag->created_at)->format('d-m-Y')  }}</td>
                             </tr>
                         @endforeach

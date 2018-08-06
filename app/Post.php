@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\LikePost;
+use Auth;
 
 class Post extends Model
 {
@@ -48,4 +50,15 @@ class Post extends Model
     {
         return $this->belongsToMany('App\Tag');
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany('App\User', 'like_posts', 'post_id', 'user_id')->withTimeStamps();
+    }
+
+    public function liked()
+    {
+        return (bool) LikePost::whereUserId(Auth::id())->wherePostId($this->id)->first();
+    }
+    
 }

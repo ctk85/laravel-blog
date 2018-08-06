@@ -2,6 +2,15 @@
    <div class="card mb3">
     <div class="card-body">
     <div class="sidebar-module">
+        <h4>Popular Posts</h4>
+        <ol class="list-unstyled">
+            @foreach($articlesPop as $articlePop)
+                <li><a href="{{ url('blog', [$articlePop->slug]) }}">{{ $articlePop->title }}</a>
+                    &nbsp;<i style="color:#aaa" class="fas fa-thumbs-up">&nbsp;</i><font color="#aaa">{{ $articlePop->likes_count }}</font></li>
+            @endforeach
+        </ol>
+    </div>
+    <div class="sidebar-module">
         <h4>Recent Posts</h4>
         <ol class="list-unstyled">
             @foreach($articles as $article)

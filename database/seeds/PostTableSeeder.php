@@ -15,7 +15,7 @@ class PostTableSeeder extends Seeder
     public function run()
     {
         // Generate an array of the last 20 months
-        $months = array_of_months(20,'Y-m-d H:i:s');
+        $months = array_of_months(30,'Y-m-d H:i:s');
 
         $faker = Faker::create();
         foreach($months as $month) {

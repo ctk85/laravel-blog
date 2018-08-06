@@ -1,4 +1,4 @@
-<aside class="col-sm-3 ml-sm-auto blog-sidebar">
+<aside class="col-md-3 ml-md-auto blog-sidebar">
    <div class="card mb3">
     <div class="card-body">
     <div class="sidebar-module">
@@ -6,7 +6,7 @@
         <ol class="list-unstyled">
             @foreach($articlesPop as $articlePop)
                 @if($articlePop->likes_count > 0)
-                    <li><a href="{{ url('blog', [$articlePop->slug]) }}">{{ $articlePop->title }}</a>&nbsp;
+                    <li><a href="{{ url('blog', [$articlePop->slug]) }}">{{ str_limit($articlePop->title, 20) }}</a>&nbsp;
                     <small class="text-muted"><i style="color:#aaa" class="fas fa-thumbs-up"></i>&nbsp;<font color="#aaa">{{ $articlePop->likes_count }}</font></small></li>
                 @endif
             @endforeach
@@ -16,7 +16,7 @@
         <h4>Recent Posts</h4>
         <ol class="list-unstyled">
             @foreach($articles as $article)
-                <li><a href="{{ url('blog', [$article->slug]) }}">{{ $article->title }}</a>
+                <li><a href="{{ url('blog', [$article->slug]) }}">{{ str_limit($article->title, 20) }}</a>
                     <small class="text-muted">{{ Carbon\Carbon::parse($article->created_at)->format('jS M') }}</small></li>
             @endforeach
         </ol>

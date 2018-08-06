@@ -30,9 +30,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         /** Fake users **/
-        /*
         $faker = Faker::create();
-        foreach(range(2,10) as $index => $value) {
+        foreach(range(2,30) as $index => $value) {
         	User::create([
         		'name' => $faker->name,
             	'email' => $faker->unique()->safeEmail,
@@ -41,6 +40,5 @@ class UsersTableSeeder extends Seeder
                 'api_token' => str_random(60)
         	]);
         }
-        */
     }
 }

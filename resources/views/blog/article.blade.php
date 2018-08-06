@@ -180,12 +180,11 @@
 				  inputValue: message,
 				  confirmButtonText: 'Update Comment',
 				  inputPlaceholder: 'Type your message here',
-				  showCancelButton: true,
-				  showLoaderOnConfirm: true,
-				  closeOnConfirm: false
+				  showCancelButton: true
 				}).then((result) => {
-					this.loading = true;
+					
 					if (result.value) {
+						this.loading = true;
 						axios.post('/api/article/'+this.post.id+'/comment/'+id+'/update', {
 							api_token: this.user.api_token,
 							body: result.value,

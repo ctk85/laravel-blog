@@ -20,7 +20,7 @@
         @foreach($posts as $post)
         <div class="blog-post">
             <h2 class="blog-post-title">{{ $post->title }}</h2>
-            <p class="blog-post-meta"><small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} by <a href="#">{{ $post->name }}</a></i></small></p>
+            <p class="blog-post-meta"><small><i>{{ Carbon\Carbon::parse($post->created_at)->format('l jS \of F Y') }} by <a href="#">{{ $post->user->name }}</a></i></small></p>
             <p>{{ str_limit($post->description, 400) }}
                 <a href="{{ route('blog.article', ['id' => $post->slug]) }}">
                     <button type="button" class="btn btn-primary btn-sm">Learn More</button>
@@ -39,7 +39,6 @@
         <nav class="blog-pagination">
             {{ $posts->links() }}
         </nav>
-
     </div><!-- /.blog-main -->
     @include('partials._sidebar')
 </div><!-- row -->

@@ -5,8 +5,10 @@
         <h4>Popular Posts</h4>
         <ol class="list-unstyled">
             @foreach($articlesPop as $articlePop)
-                <li><a href="{{ url('blog', [$articlePop->slug]) }}">{{ $articlePop->title }}</a>
-                    &nbsp;<i style="color:#aaa" class="fas fa-thumbs-up">&nbsp;</i><font color="#aaa">{{ $articlePop->likes_count }}</font></li>
+                @if($articlePop->likes_count > 0)
+                    <li><a href="{{ url('blog', [$articlePop->slug]) }}">{{ $articlePop->title }}</a>&nbsp;
+                    <small class="text-muted"><i style="color:#aaa" class="fas fa-thumbs-up"></i>&nbsp;<font color="#aaa">{{ $articlePop->likes_count }}</font></small></li>
+                @endif
             @endforeach
         </ol>
     </div>
@@ -14,7 +16,8 @@
         <h4>Recent Posts</h4>
         <ol class="list-unstyled">
             @foreach($articles as $article)
-                <li><a href="{{ url('blog', [$article->slug]) }}">{{ $article->title }}</a></li>
+                <li><a href="{{ url('blog', [$article->slug]) }}">{{ $article->title }}</a>
+                    <small class="text-muted">{{ Carbon\Carbon::parse($article->created_at)->format('jS M') }}</small></li>
             @endforeach
         </ol>
     </div>

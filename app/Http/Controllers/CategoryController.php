@@ -7,7 +7,11 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-    
+    /**
+     * Constructor.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -41,11 +45,20 @@ class CategoryController extends Controller
         $slug = str_replace(' ', '-', strtolower($name));
 
         $category = new Category;
+
         $category->name = $name;
         $category->slug = $slug;
-        $category->save();
 
-        alert()->success('Success!','New Category created!');
+        $isSaved = $category->save();
+
+        if($isSaved) {
+            alert()->success('Success', trans('messages.created', [
+                'resource' => class_basename($category)
+            ]));
+        } else {
+            alert()->error('Error', trans('messages.failed_to_store'));
+        }
+
         return redirect()->route('category.index');
     }
 

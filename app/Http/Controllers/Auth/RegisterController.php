@@ -61,10 +61,10 @@ class RegisterController extends Controller
             ->footer('Please check your eMail for the activation link.')
             ->showConfirmButton()
             ->showCloseButton();
-       
+
         try { 
             $user->notify(new NewUserRegisteredSuccessfully($user));
-            
+
             $admin = User::where('isAdmin', 1)->get();
             Notification::send($admin, new NewUser($user));
         } catch (\Exception $e) {} 
@@ -119,7 +119,7 @@ class RegisterController extends Controller
         $user->activation_code = null;
         $user->save();
         auth()->login($user);
-        
+
         alert()->success('Success!','Your account is now active!');
         return redirect('/');
     }
@@ -137,10 +137,11 @@ class RegisterController extends Controller
 
         try {
             $user->notify(new NewUserRegisteredSuccessfully($user));        
-        
+
         } catch (\Exception $e) {}
 
         alert()->info('Sent.', 'Please check your eMail for the activation link.');
+
         return redirect('/');
     }
 

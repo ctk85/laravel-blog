@@ -12,6 +12,8 @@
 */
 Auth::routes();
 
+Route::get('/posts/pdf', 'PostController@pdf')->name('posts.pdf');
+
 Route::get('/auth/activationlinkform', 'Auth\RegisterController@showActivationLinkForm');
 Route::post('/auth/sendactivationlink', 'Auth\RegisterController@sendActivationLink')->name('auth.sendactivationlink');
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Category;
 use App\Tag;
+use PDF;
+use App;
 
 class PostController extends Controller
 {
@@ -29,7 +31,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::whereUserId(Auth::id())->with('user')->latest()->paginate(10);
-        
+
         return view('post.index', compact('posts'));
     }
 
@@ -41,7 +43,7 @@ class PostController extends Controller
     public function indexAdmin()
     {
         $posts = Post::latest()->with('user')->paginate(10);
-            
+
         return view('post.index-admin', compact('posts'));
     }
 
@@ -85,6 +87,7 @@ class PostController extends Controller
         $post->tags()->sync($request->tags, false);
 
         alert()->success('Success!','Blog post, '.$request->input('title').', has been updated successfully!');
+
         return redirect()->route('home');
     }
 
@@ -139,17 +142,17 @@ class PostController extends Controller
             ]);
         }
 
-        //Save the data
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->slug = $request->input('slug');
         $post->category_id = $request->input('category');
-        
+
         $post->save();
 
         $post->tags()->sync($request->tags, true);
 
         alert()->success('Success!','Blog post, '.$post->title.', has been updated successfully!');
+
         return redirect()->route('post.index');
     }
 
@@ -162,13 +165,40 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
-        
+
         $post->tags()->detach();
         $post->likes()->detach();
 
         $post->delete();
 
         return redirect()->route('post.index');
+    }
+
+    /**
+     * Download PDF.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return PDF
+     */
+    public function pdf(Request $request)
+    {
+        $posts = Post::all();
+
+        // if($request->viewType === 'download') {
+
+        //     $pdf = PDF::loadView('pdf.posts', compact('posts'));
+
+        //     return $pdf->download('posts_' . time() . '.pdf');
+
+        // } else {
+
+            $view = view('pdf.posts', compact('posts'));
+
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML($view->render());
+
+            return $pdf->stream();
+        // }
     }
 
 }
